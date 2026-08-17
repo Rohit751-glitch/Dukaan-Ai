@@ -45,6 +45,8 @@ public class MainActivity extends Activity {
         });
         webView.addJavascriptInterface(new NativeBridge(), "Android");
         String html = readAsset("index.html");
+        html = html.replace("/*STYLE*/", readAsset("style.css"));
+        html = html.replace("/*APPJS*/", readAsset("app1.js") + readAsset("app2.js"));
         webView.loadDataWithBaseURL("https://app.chhotu.ai/", html, "text/html", "UTF-8", "https://app.chhotu.ai/");
     }
 
@@ -53,7 +55,7 @@ public class MainActivity extends Activity {
             StringBuilder sb = new StringBuilder(); String line;
             while ((line = br.readLine()) != null) sb.append(line).append('\n');
             return sb.toString();
-        } catch (Exception e) { return "<h2>Chhotu_AI failed to load.</h2>"; }
+        } catch (Exception e) { return ""; }
     }
 
     @Override public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] results) {
